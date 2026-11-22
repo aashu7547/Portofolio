@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisdom International School</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #1a4d8c;
+            --primary-dark: #0d2f57;
+            --primary-light: #2a6bb5;
+            --accent: #f39c12;
+            --accent-light: #f5b041;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --gray: #6c757d;
+            --white: #ffffff;
+            --success: #27ae60;
+            --danger: #e74c3c;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; color: var(--dark); overflow-x: hidden; line-height: 1.6; }
+        a { text-decoration: none; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        section { padding: 80px 0; position: relative; }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed; top: 0; left: 0; height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            width: 0%; z-index: 9999;
+            transition: width 0.1s;
+        }
+
+        /* Top Bar */
+        .top-bar { background: var(--primary-dark); color: var(--white); padding: 8px 0; font-size: 13px; }
+        .top-bar .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .top-bar .info { display: flex; gap: 25px; flex-wrap: wrap; align-items: center; }
+        .top-bar .info span i { margin-right: 6px; color: var(--accent); }
+        .top-bar .social a { color: var(--white); margin-left: 12px; transition: color 0.3s; }
+        .top-bar .social a:hover { color: var(--accent); }
+
+        /* Header */
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; transition: box-shadow 0.3s; }
+        header.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 24px; font-weight: 800; font-family: 'Merriweather', serif; transition: transform 0.4s; }
+        .logo:hover .logo-icon { transform: rotate(360deg); }
+        .logo-text h1 { font-size: 22px; color: var(--primary); font-weight: 800; line-height: 1.2; }
+        .logo-text p { font-size: 11px; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; }
+        nav ul { display: flex; gap: 5px; align-items: center; }
+        nav ul li a { color: var(--dark); font-weight: 500; font-size: 14px; padding: 10px 14px; border-radius: 6px; transition: all 0.3s; display: block; }
+        nav ul li a:hover, nav ul li a.active { color: var(--white); background: var(--primary); }
+        .btn-apply { background: var(--accent) !important; color: var(--white) !important; padding: 10px 22px !important; border-radius: 25px !important; font-weight: 600 !important; animation: pulse 2s infinite; }
+        .btn-apply:hover { background: var(--accent-light) !important; animation: none; }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(243,156,18,0.5); }
+            50% { box-shadow: 0 0 0 12px rgba(243,156,18,0); }
+        }
+        .menu-toggle { display: none; font-size: 26px; color: var(--primary); cursor: pointer; }
+
+        /* HERO SLIDER */
+        .hero-slider { position: relative; height: 90vh; min-height: 600px; overflow: hidden; }
+        .slide {
+            position: absolute; inset: 0;
+            opacity: 0; transition: opacity 1s ease-in-out;
+            display: flex; align-items: center;
+            background-size: cover; background-position: center;
+        }
+        .slide.active { opacity: 1; z-index: 1; }
+        .slide::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(26,77,140,0.88), rgba(13,47,87,0.75));
+        }
+        .slide-content {
+            position: relative; z-index: 2;
+            max-width: 680px; color: var(--white);
+            padding: 40px 20px;
+        }
+        .slide.active .slide-content { animation: slideUp 1s ease; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-badge { display: inline-block; background: rgba(243,156,18,0.2); border: 1px solid var(--accent); color: var(--accent); padding: 8px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+        .slide-content h1 { font-size: 52px; line-height: 1.15; font-weight: 800; margin-bottom: 20px; font-family: 'Merriweather', serif; }
+        .slide-content h1 span { color: var(--accent); }
+        .slide-content p { font-size: 17px; line-height: 1.8; margin-bottom: 30px; opacity: 0.95; }
+        .hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
+
+        .slider-dots {
+            position: absolute; bottom: 30px; left: 50%;
+            transform: translateX(-50%); z-index: 10;
+            display: flex; gap: 10px;
+        }
+        .slider-dots .dot {
+            width: 14px; height: 14px; border-radius: 50%;
+            background: rgba(255,255,255,0.5); cursor: pointer;
+            transition: all 0.3s; border: 2px solid transparent;
+        }
+        .slider-dots .dot.active { background: var(--accent); transform: scale(1.3); }
+        .slider-dots .dot:hover { background: var(--accent-light); }
+
+        .slider-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            z-index: 10; width: 50px; height: 50px;
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(5px);
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 50%; color: var(--white);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 20px; transition: all 0.3s;
+        }
+        .slider-arrow:hover { background: var(--accent); border-color: var(--accent); }
+        .slider-arrow.prev { left: 25px; }
+        .slider-arrow.next { right: 25px; }
+
+        /* Buttons */
+        .btn { display: inline-block; padding: 14px 32px; border-radius: 30px; font-weight: 600; font-size: 14px; transition: all 0.3s; cursor: pointer; border: none; text-align: center; }
+        .btn-primary { background: var(--accent); color: var(--white); box-shadow: 0 8px 20px rgba(243,156,18,0.35); }
+        .btn-primary:hover { background: var(--accent-light); transform: translateY(-3px); box-shadow: 0 12px 28px rgba(243,156,18,0.5); }
+        .btn-outline { background: transparent; color: var(--white); border: 2px solid var(--white); }
+        .btn-outline:hover { background: var(--white); color: var(--primary); }
+
+        /* Notice Ticker */
+        .notice-ticker {
+            background: var(--primary-dark); color: var(--white);
+            padding: 10px 0; display: flex; align-items: center; gap: 15px;
+            overflow: hidden; font-size: 14px;
+        }
+        .notice-ticker .label {
+            background: var(--accent); padding: 5px 15px; border-radius: 20px;
+            font-weight: 700; font-size: 12px; white-space: nowrap;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .ticker-content { overflow: hidden; flex: 1; position: relative; }
+        .ticker-text { display: inline-block; white-space: nowrap; animation: ticker 30s linear infinite; }
+        .ticker-text span { margin-right: 50px; }
+        .ticker-text span i { color: var(--accent); margin-right: 6px; }
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Section Titles */
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title .subtitle { color: var(--accent); font-weight: 600; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 10px; }
+        .section-title h2 { font-size: 38px; color: var(--primary); font-family: 'Merriweather', serif; font-weight: 700; line-height: 1.3; }
+        .section-title .line { width: 70px; height: 4px; background: var(--accent); margin: 18px auto 0; border-radius: 2px; }
+
+        /* Welcome */
+        .welcome { background: var(--white); }
+        .welcome-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .welcome-image { border-radius: 20px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.12); position: relative; }
+        .welcome-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
+        .welcome-image:hover img { transform: scale(1.05); }
+        .welcome-image::before { content: ''; position: absolute; top: -20px; left: -20px; width: 100px; height: 100px; background: var(--accent); border-radius: 20px; z-index: -1; }
+        .welcome-text h2 { font-size: 34px; color: var(--primary); font-family: 'Merriweather', serif; margin-bottom: 20px; line-height: 1.3; }
+        .welcome-text p { font-size: 15px; line-height: 1.9; color: var(--gray); margin-bottom: 16px; }
+        .welcome-features { margin-top: 25px; display: grid; gap: 12px; }
+        .welcome-features div { display: flex; align-items: center; gap: 12px; font-weight: 500; color: var(--dark); font-size: 15px; }
+        .welcome-features div i { color: var(--accent); font-size: 22px; }
+
+        /* Why Choose */
+        .why-choose { background: var(--light); }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+        .feature-card { background: var(--white); padding: 40px 28px; border-radius: 16px; text-align: center; box-shadow: 0 5px 25px rgba(0,0,0,0.05); transition: all 0.35s; border-bottom: 4px solid transparent; position: relative; overflow: hidden; }
+        .feature-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(243,156,18,0.08), transparent); transition: left 0.6s; }
+        .feature-card:hover::before { left: 100%; }
+        .feature-card:hover { transform: translateY(-10px); border-bottom-color: var(--accent); box-shadow: 0 20px 40px rgba(26,77,140,0.12); }
+        .feature-icon { width: 100px; height: 100px; margin: 0 auto 24px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 42px; transition: all 0.35s; }
+        .feature-card:hover .feature-icon { background: linear-gradient(135deg, var(--accent), var(--accent-light)); transform: rotate(10deg) scale(1.1); }
+        .feature-card h3 { font-size: 20px; color: var(--primary); margin-bottom: 12px; font-weight: 600; }
+        .feature-card p { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+        /* NOTICE BOARD - Now placed right after Hero */
+        .notice-board { background: var(--white); padding: 70px 0; }
+        .notice-board-wrapper { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: start; }
+        .notice-highlight { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 20px; padding: 45px 35px; color: var(--white); position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(26,77,140,0.25); }
+        .notice-highlight::before { content: ''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; background: rgba(243,156,18,0.15); border-radius: 50%; }
+        .notice-highlight::after { content: ''; position: absolute; bottom: -60px; left: -40px; width: 150px; height: 150px; background: rgba(243,156,18,0.1); border-radius: 50%; }
+        .notice-highlight .bell-icon { width: 70px; height: 70px; background: var(--accent); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 22px; position: relative; z-index: 1; animation: bellRing 2s ease-in-out infinite; }
+        @keyframes bellRing {
+            0%, 100% { transform: rotate(0); }
+            10%, 30% { transform: rotate(-12deg); }
+            20%, 40% { transform: rotate(12deg); }
+            50% { transform: rotate(0); }
+        }
+        .notice-highlight h3 { font-size: 28px; font-family: 'Merriweather', serif; margin-bottom: 12px; position: relative; z-index: 1; }
+        .notice-highlight p { font-size: 15px; line-height: 1.8; opacity: 0.92; position: relative; z-index: 1; margin-bottom: 20px; }
+
+        /* Admission Form Card inside Notice Board */
+        .admission-card {
+            background: rgba(255,255,255,0.15);
+            border: 2px dashed rgba(255,255,255,0.4);
+            border-radius: 16px;
+            padding: 22px 20px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .admission-card:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+        .admission-card .adm-icon {
+            width: 55px; height: 55px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 12px;
+            box-shadow: 0 6px 15px rgba(243,156,18,0.4);
+        }
+        .admission-card h4 { font-size: 18px; margin-bottom: 6px; font-weight: 700; }
+        .admission-card p { font-size: 12.5px; opacity: 0.9; margin-bottom: 12px; }
+        .admission-card .adm-btn {
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            padding: 9px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .admission-card .adm-btn:hover {
+            background: var(--accent-light);
+            transform: scale(1.05);
+        }
+
+        .notice-list { display: grid; gap: 14px; }
+        .notice-item { background: var(--white); border: 1px solid #e8ecf1; border-left: 5px solid var(--accent); border-radius: 12px; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.04); cursor: pointer; }
+        .notice-item:hover { transform: translateX(6px); box-shadow: 0 10px 25px rgba(26,77,140,0.1); border-left-color: var(--primary); }
+        .notice-date { flex-shrink: 0; width: 60px; height: 60px; background: var(--light); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 700; color: var(--primary); line-height: 1.1; }
+        .notice-date .day { font-size: 22px; font-family: 'Merriweather', serif; }
+        .notice-date .month { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); }
+        .notice-content h4 { font-size: 16px; color: var(--primary); margin-bottom: 5px; font-weight: 600; }
+        .notice-content p { font-size: 13.5px; color: var(--gray); line-height: 1.6; }
+        .notice-tag { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; color: var(--white); }
+        .notice-tag.new { background: var(--success); }
+        .notice-tag.urgent { background: var(--danger); }
+        .notice-tag.info { background: var(--primary); }
+
+        /* Services */
+        .services { background: var(--white); }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .service-card { background: var(--white); border: 1px solid #eef1f5; border-radius: 16px; overflow: hidden; transition: all 0.35s; box-shadow: 0 5px 20px rgba(0,0,0,0.04); }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(26,77,140,0.15); }
+        .service-img { height: 200px; background-size: cover; background-position: center; position: relative; overflow: hidden; transition: transform 0.5s; }
+        .service-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,47,87,0.7), transparent); }
+        .service-card:hover .service-img { transform: scale(1.05); }
+        .service-icon-badge { position: absolute; bottom: -30px; left: 25px; width: 70px; height: 70px; background: var(--accent); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 30px; z-index: 2; box-shadow: 0 8px 20px rgba(243,156,18,0.35); transition: transform 0.3s; }
+        .service-card:hover .service-icon-badge { transform: rotate(-10deg) scale(1.1); }
+        .service-body { padding: 45px 25px 28px; }
+        .service-body h3 { font-size: 20px; color: var(--primary); margin-bottom: 12px; font-weight: 600; }
+        .service-body p { font-size: 14px; color: var(--gray); line-height: 1.7; margin-bottom: 18px; }
+        .read-more { color: var(--accent); font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.3s; cursor: pointer; background: none; border: none; padding: 0; font-family: inherit; }
+        .read-more:hover { gap: 12px; }
+
+        /* Stats */
+        .stats { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 70px 0; color: var(--white); position: relative; overflow: hidden; }
+        .stats::before { content: ''; position: absolute; top: -50%; left: -10%; width: 400px; height: 400px; background: rgba(243,156,18,0.08); border-radius: 50%; }
+        .stats::after { content: ''; position: absolute; bottom: -50%; right: -10%; width: 400px; height: 400px; background: rgba(243,156,18,0.08); border-radius: 50%; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: center; position: relative; z-index: 1; }
+        .stat-item i { font-size: 52px; color: var(--accent); margin-bottom: 15px; }
+        .stat-item .number { font-size: 42px; font-weight: 800; display: block; font-family: 'Merriweather', serif; }
+        .stat-item .label { font-size: 14px; opacity: 0.9; letter-spacing: 0.5px; }
+
+        /* FACULTY */
+        .faculty { background: var(--light); }
+        .faculty-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
+        .faculty-card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: 0 5px 25px rgba(0,0,0,0.06); transition: all 0.4s; position: relative; text-align: center; }
+        .faculty-card:hover { transform: translateY(-10px); box-shadow: 0 25px 50px rgba(26,77,140,0.18); }
+        .faculty-img { height: 260px; background-size: cover; background-position: center top; position: relative; overflow: hidden; cursor: pointer; }
+        .faculty-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,47,87,0.6), transparent 50%); opacity: 0; transition: opacity 0.4s; }
+        .faculty-card:hover .faculty-img::after { opacity: 1; }
+        .faculty-img::before { content: '\f00e'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 40px; color: var(--white); z-index: 3; transition: transform 0.4s; opacity: 0; }
+        .faculty-card:hover .faculty-img::before { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        .faculty-social { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%) translateY(20px); display: flex; gap: 10px; opacity: 0; transition: all 0.4s; z-index: 2; }
+        .faculty-card:hover .faculty-social { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .faculty-social a { width: 36px; height: 36px; background: var(--white); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.3s; }
+        .faculty-social a:hover { background: var(--accent); color: var(--white); transform: translateY(-3px); }
+        .faculty-body { padding: 25px 20px 28px; }
+        .faculty-body h3 { font-size: 19px; color: var(--primary); margin-bottom: 4px; font-weight: 700; }
+        .faculty-body .designation { color: var(--accent); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: block; }
+        .faculty-body .faculty-details { display: grid; gap: 6px; margin-bottom: 15px; text-align: left; }
+        .faculty-body .faculty-details div { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gray); }
+        .faculty-body .faculty-details div i { color: var(--accent); font-size: 13px; width: 16px; }
+        .faculty-body .faculty-bio { font-size: 13px; color: var(--gray); line-height: 1.6; margin-bottom: 15px; font-style: italic; }
+        .faculty-view-btn { background: transparent; color: var(--primary); border: 2px solid var(--primary); padding: 8px 22px; border-radius: 25px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.3s; font-family: inherit; }
+        .faculty-view-btn:hover { background: var(--primary); color: var(--white); }
+
+        /* Faculty Modal */
+        .faculty-modal .modal-content { max-width: 650px; }
+        .faculty-modal .faculty-modal-header { display: flex; gap: 25px; align-items: center; margin-bottom: 25px; flex-wrap: wrap; }
+        .faculty-modal .faculty-modal-img { width: 130px; height: 130px; border-radius: 50%; background-size: cover; background-position: center top; border: 4px solid var(--accent); flex-shrink: 0; box-shadow: 0 10px 25px rgba(243,156,18,0.3); }
+        .faculty-modal .faculty-modal-header h3 { font-size: 26px; color: var(--primary); margin-bottom: 4px; font-family: 'Merriweather', serif; }
+        .faculty-modal .faculty-modal-header .designation { color: var(--accent); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        .faculty-modal .faculty-modal-info { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; padding: 18px; background: var(--light); border-radius: 12px; }
+        .faculty-modal .faculty-modal-info div { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--dark); }
+        .faculty-modal .faculty-modal-info div i { color: var(--accent); width: 18px; }
+        .faculty-modal .faculty-modal-bio { font-size: 14px; line-height: 1.8; color: var(--gray); margin-bottom: 18px; }
+        .faculty-modal .faculty-modal-quote { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--white); padding: 20px 25px; border-radius: 12px; font-style: italic; font-size: 14px; line-height: 1.7; position: relative; }
+        .faculty-modal .faculty-modal-quote::before { content: '\201C'; font-size: 60px; position: absolute; top: -10px; left: 15px; opacity: 0.3; font-family: 'Merriweather', serif; }
+
+        /* Testimonials */
+        .testimonials { background: var(--white); }
+        .testimonial-wrapper { position: relative; max-width: 900px; margin: 0 auto; }
+        .testimonial-slide { display: none; background: var(--light); border-radius: 20px; padding: 50px 60px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); text-align: center; animation: fadeIn 0.6s ease; }
+        .testimonial-slide.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .testimonial-slide .stars { color: var(--accent); font-size: 18px; margin-bottom: 20px; }
+        .testimonial-slide .quote { font-size: 18px; line-height: 1.8; color: var(--dark); margin-bottom: 25px; font-style: italic; position: relative; }
+        .testimonial-slide .quote::before { content: '\201C'; position: absolute; top: -30px; left: -20px; font-size: 100px; color: rgba(243,156,18,0.15); font-family: 'Merriweather', serif; }
+        .testimonial-slide .author { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .testimonial-slide .author img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); }
+        .testimonial-slide .author .name { font-weight: 700; color: var(--primary); font-size: 16px; text-align: left; }
+        .testimonial-slide .author .role { font-size: 13px; color: var(--gray); text-align: left; }
+        .testimonial-nav { display: flex; justify-content: center; gap: 12px; margin-top: 30px; }
+        .testimonial-nav button { width: 14px; height: 14px; border-radius: 50%; border: none; background: #ccc; cursor: pointer; transition: all 0.3s; }
+        .testimonial-nav button.active { background: var(--accent); transform: scale(1.3); }
+
+        /* FAQ */
+        .faq { background: var(--light); }
+        .faq-grid { max-width: 850px; margin: 0 auto; }
+        .faq-item { border: 1px solid #e8ecf1; border-radius: 12px; margin-bottom: 15px; overflow: hidden; transition: all 0.3s; background: var(--white); }
+        .faq-item.active { border-color: var(--accent); box-shadow: 0 5px 20px rgba(243,156,18,0.1); }
+        .faq-question { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; color: var(--primary); font-size: 16px; gap: 15px; }
+        .faq-question i { transition: transform 0.3s; color: var(--accent); flex-shrink: 0; }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+        .faq-answer p { padding: 0 25px 22px; color: var(--gray); line-height: 1.8; font-size: 14px; }
+
+        /* Gallery */
+        .gallery { background: var(--white); }
+        .gallery-filter { display: flex; justify-content: center; gap: 10px; margin-bottom: 35px; flex-wrap: wrap; }
+        .gallery-filter button { padding: 8px 20px; border: 2px solid var(--primary); background: transparent; color: var(--primary); border-radius: 25px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.3s; font-family: inherit; }
+        .gallery-filter button.active, .gallery-filter button:hover { background: var(--primary); color: var(--white); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .gallery-item { position: relative; border-radius: 14px; overflow: hidden; height: 240px; cursor: pointer; transition: all 0.4s; }
+        .gallery-item.hide { display: none; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .gallery-item:hover img { transform: scale(1.15); }
+        .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,47,87,0.9), transparent 60%); display: flex; align-items: flex-end; padding: 20px; opacity: 0; transition: opacity 0.35s; }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-overlay span { color: var(--white); font-weight: 600; font-size: 15px; }
+
+        /* Blog */
+        .blog { background: var(--light); }
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .blog-card { background: var(--white); border-radius: 16px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.06); transition: all 0.35s; border: 1px solid #f0f2f5; cursor: pointer; }
+        .blog-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(26,77,140,0.12); }
+        .blog-img { height: 200px; background-size: cover; background-position: center; position: relative; transition: transform 0.5s; }
+        .blog-card:hover .blog-img { transform: scale(1.05); }
+        .blog-date { position: absolute; top: 15px; left: 15px; background: var(--accent); color: var(--white); padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; text-align: center; line-height: 1.3; }
+        .blog-body { padding: 25px; }
+        .blog-body .category { color: var(--accent); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .blog-body h3 { font-size: 18px; color: var(--primary); margin: 10px 0 12px; line-height: 1.4; font-weight: 600; }
+        .blog-body p { font-size: 13.5px; color: var(--gray); line-height: 1.7; margin-bottom: 16px; }
+
+        /* CTA */
+        .cta { background: linear-gradient(135deg, rgba(26,77,140,0.95), rgba(13,47,87,0.95)), url('https://images.pexels.com/photos/1595391/pexels-photo-1595391.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover fixed; padding: 90px 0; text-align: center; color: var(--white); }
+        .cta h2 { font-size: 40px; font-family: 'Merriweather', serif; margin-bottom: 15px; font-weight: 700; }
+        .cta p { font-size: 16px; opacity: 0.92; margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto; }
+
+        /* Contact */
+        .contact { background: var(--white); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; }
+        .contact-info { display: grid; gap: 20px; }
+        .contact-card { background: var(--light); padding: 25px; border-radius: 14px; display: flex; gap: 18px; align-items: flex-start; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: all 0.3s; }
+        .contact-card:hover { transform: translateX(6px); }
+        .contact-card .icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 26px; flex-shrink: 0; }
+        .contact-card h4 { font-size: 16px; color: var(--primary); margin-bottom: 5px; }
+        .contact-card p { font-size: 13.5px; color: var(--gray); line-height: 1.6; }
+        .contact-form { background: var(--light); padding: 35px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+        .contact-form h3 { font-size: 22px; color: var(--primary); margin-bottom: 22px; font-weight: 600; }
+        .form-group { margin-bottom: 16px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 13px 16px; border: 1px solid #e2e6ea; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 14px; transition: all 0.3s; background: var(--white); }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(243,156,18,0.12); }
+        .form-group textarea { resize: vertical; min-height: 110px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-message { margin-top: 12px; font-size: 14px; font-weight: 500; display: none; }
+        .form-message.success { display: block; color: var(--success); }
+        .form-message.error { display: block; color: var(--danger); }
+
+        /* Footer */
+        footer { background: var(--primary-dark); color: rgba(255,255,255,0.8); padding-top: 60px; }
+        .footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1.2fr; gap: 35px; padding-bottom: 40px; }
+        .footer-col h4 { color: var(--white); font-size: 17px; margin-bottom: 20px; position: relative; padding-bottom: 10px; font-weight: 600; }
+        .footer-col h4::after { content: ''; position: absolute; bottom: 0; left: 0; width: 35px; height: 3px; background: var(--accent); border-radius: 2px; }
+        .footer-col p { font-size: 13.5px; line-height: 1.8; margin-bottom: 12px; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { color: rgba(255,255,255,0.75); font-size: 13.5px; transition: all 0.3s; }
+        .footer-col ul li a:hover { color: var(--accent); padding-left: 5px; }
+        .footer-social { display: flex; gap: 10px; margin-top: 18px; }
+        .footer-social a { width: 38px; height: 38px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); transition: all 0.3s; font-size: 15px; }
+        .footer-social a:hover { background: var(--accent); transform: translateY(-4px); }
+        .footer-contact-item { display: flex; gap: 10px; margin-bottom: 12px; font-size: 13.5px; line-height: 1.6; }
+        .footer-contact-item i { color: var(--accent); margin-top: 3px; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding: 20px 0; text-align: center; font-size: 13px; color: rgba(255,255,255,0.6); }
+
+        /* Back to Top */
+        .back-to-top { position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px; background: var(--accent); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 999; box-shadow: 0 6px 20px rgba(243,156,18,0.4); border: none; font-size: 18px; }
+        .back-to-top.show { opacity: 1; visibility: visible; }
+        .back-to-top:hover { background: var(--primary); transform: translateY(-4px); }
+
+        /* Lightbox */
+        .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
+        .lightbox.active { display: flex; }
+        .lightbox img { max-width: 90%; max-height: 85vh; border-radius: 10px; animation: zoomIn 0.4s ease; }
+        @keyframes zoomIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .lightbox-close { position: absolute; top: 25px; right: 35px; color: var(--white); font-size: 36px; cursor: pointer; line-height: 1; }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 22px; cursor: pointer; transition: background 0.3s; }
+        .lightbox-nav:hover { background: var(--accent); }
+        .lightbox-nav.prev { left: 25px; }
+        .lightbox-nav.next { right: 25px; }
+
+        /* Modal */
+        .modal { position: fixed; inset: 0; background: rgba(13,47,87,0.75); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--white); border-radius: 16px; padding: 35px; max-width: 600px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto; animation: fadeInUp 0.4s ease; }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 26px; cursor: pointer; color: var(--gray); line-height: 1; background: none; border: none; }
+        .modal-content h3 { color: var(--primary); font-size: 24px; margin-bottom: 8px; font-family: 'Merriweather', serif; padding-right: 30px; }
+        .modal-content > p { color: var(--gray); font-size: 14px; margin-bottom: 22px; }
+        .modal .form-group { margin-bottom: 14px; }
+        .modal-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 36px; margin-bottom: 20px; }
+        .modal-content .detail-list { margin-top: 18px; display: grid; gap: 10px; }
+        .modal-content .detail-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--gray); line-height: 1.6; }
+        .modal-content .detail-list li i { color: var(--accent); margin-top: 4px; flex-shrink: 0; }
+        .modal-content .modal-img { width: 100%; height: 220px; border-radius: 12px; background-size: cover; background-position: center; margin-bottom: 20px; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .welcome-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .slide-content h1 { font-size: 40px; }
+            .notice-board-wrapper { grid-template-columns: 1fr; }
+            .testimonial-slide { padding: 40px 30px; }
+        }
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            nav { position: absolute; top: 100%; left: 0; width: 100%; background: var(--white); box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+            nav.open { max-height: 500px; }
+            nav ul { flex-direction: column; padding: 15px; gap: 4px; }
+            nav ul li { width: 100%; }
+            nav ul li a { display: block; }
+            .slide-content h1 { font-size: 32px; }
+            .slide-content p { font-size: 15px; }
+            .section-title h2 { font-size: 28px; }
+            .form-row { grid-template-columns: 1fr; }
+            .top-bar .info { display: none; }
+            .top-bar .container { justify-content: center; }
+            .slider-arrow { width: 40px; height: 40px; font-size: 16px; }
+            .testimonial-slide .quote { font-size: 15px; }
+            .faculty-modal .faculty-modal-info { grid-template-columns: 1fr; }
+            .faculty-modal .faculty-modal-header { justify-content: center; text-align: center; }
+        }
+        @media (max-width: 576px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .slide-content h1 { font-size: 26px; }
+            .hero-slider { height: 85vh; }
+            .cta h2 { font-size: 28px; }
+            section { padding: 55px 0; }
+            .notice-item { flex-direction: column; }
+            .notice-date { width: 100%; height: 45px; flex-direction: row; gap: 6px; }
+            .notice-date .day { font-size: 16px; }
+            .notice-date .month { font-size: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="info">
+                <span><i class="fas fa-envelope"></i> info@wisdominternational.edu</span>
+                <span><i class="fas fa-phone"></i> +91-9876543210</span>
+                <span><i class="fas fa-clock"></i> Mon - Sat: 8:00 AM - 4:00 PM</span>
+            </div>
+            <div class="social">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header id="header">
+        <div class="container navbar">
+            <a href="#home" class="logo">
+                <div class="logo-icon">W</div>
+                <div class="logo-text">
+                    <h1>Wisdom International</h1>
+                    <p>School</p>
+                </div>
+            </a>
+            <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#notice">Notice</a></li>
+                    <li><a href="#welcome">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#faculty">Faculty</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#" class="btn-apply" id="applyBtnNav">Apply Now</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SLIDER -->
+    <section class="hero-slider" id="home">
+        <div class="slide active" style="background-image: url('https://images.pexels.com/photos/256490/pexels-photo-256490.jpeg?auto=compress&cs=tinysrgb&w=1600');">
+            <div class="container">
+                <div class="slide-content">
+                    <span class="hero-badge">Admissions Open 2025-26</span>
+                    <h1>Invest in Your Student’s <span>Future</span></h1>
+                    <p>Wisdom International School provides quality education while developing emotional and intellectual skills. Explore the possibilities with us!</p>
+                    <div class="hero-buttons">
+                        <a href="#contact" class="btn btn-primary">Apply Now</a>
+                        <a href="#welcome" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1600');">
+            <div class="container">
+                <div class="slide-content">
+                    <span class="hero-badge">Modern Computer Lab</span>
+                    <h1>Learn <span>Technology</span> for Tomorrow</h1>
+                    <p>State-of-the-art computer labs with 60+ workstations. Learn programming, design, and digital literacy from expert faculty.</p>
+                    <div class="hero-buttons">
+                        <a href="#services" class="btn btn-primary">Our Services</a>
+                        <a href="#gallery" class="btn btn-outline">View Gallery</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=1600');">
+            <div class="container">
+                <div class="slide-content">
+                    <span class="hero-badge">Sports Excellence</span>
+                    <h1>Building <span>Champions</span> On & Off Field</h1>
+                    <p>Our sports program emphasizes strength, speed, endurance, and teamwork through mass participation and professional coaching.</p>
+                    <div class="hero-buttons">
+                        <a href="#services" class="btn btn-primary">Explore Sports</a>
+                        <a href="#contact" class="btn btn-outline">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slider-dots" id="sliderDots">
+            <div class="dot active" data-slide="0"></div>
+            <div class="dot" data-slide="1"></div>
+            <div class="dot" data-slide="2"></div>
+        </div>
+        <div class="slider-arrow prev" id="prevSlide"><i class="fas fa-chevron-left"></i></div>
+        <div class="slider-arrow next" id="nextSlide"><i class="fas fa-chevron-right"></i></div>
+    </section>
+
+    <!-- NOTICE BOARD - Right after Home/Hero -->
+    <section class="notice-board" id="notice">
+        <div class="container">
+            <div class="section-title">
+                <span class="subtitle">Stay Updated</span>
+                <h2>Notice Board</h2>
+                <div class="line"></div>
+            </div>
+            <div class="notice-board-wrapper">
+                <div class="notice-highlight">
+                    <div class="bell-icon"><i class="fas fa-bullhorn"></i></div>
+                    <h3>Important Announcements</h3>
+                    <p>Stay informed about the latest happenings at Wisdom International School. Check back regularly for updates on admissions, events, exams, and more.</p>
+
+                    <!-- Admission Form Card inside Notice Board -->
+                    <div class="admission-card" onclick="openApplyModal()">
+                        <div class="adm-icon"><i class="fas fa-user-plus"></i></div>
+                        <h4>Admission Open 2025-26</h4>
+                        <p>Click here to fill the online admission form</p>
+                        <button class="adm-btn">Fill Admission Form <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <div class="notice-list">
+                    <div class="notice-item" onclick="openNotice('Admissions Open for 2025-26', 'Online applications are now being accepted for Nursery to Class 12. Apply before 31st January 2025. Limited seats available!', '15 Dec 2024', 'new')">
+                        <div class="notice-date">
+                            <span class="day">15</span>
+                            <span class="month">Dec</span>
+                        </div>
+                        <div class="notice-content">
+                            <span class="notice-tag new">New</span>
+                            <h4>Admissions Open for 2025-26</h4>
+                            <p>Online applications are now being accepted for Nursery to Class 12. Apply before 31st January 2025.</p>
+                        </div>
+                    </div>
+                    <div class="notice-item" onclick="openNotice('Annual Exam Schedule Released', 'The date sheet for the upcoming annual examinations has been published. Students can download it from the school portal or collect a printed copy from the office. Exams begin from 5th March 2025.', '22 Dec 2024', 'urgent')">
+                        <div class="notice-date">
+                            <span class="day">22</span>
+                            <span class="month">Dec</span>
+                        </div>
+                        <div class="notice-content">
+                            <span class="notice-tag urgent">Urgent</span>
+                            <h4>Annual Exam Schedule Released</h4>
+                            <p>Download the date sheet for the upcoming annual examinations from the school portal.</p>
+                        </div>
+                    </div>
+                    <div class="notice-item" onclick="openNotice('Annual Sports Meet 2025', 'Mark your calendars! The annual sports meet will be held on 20th January 2025 at the main ground. All students from Class 1-12 are encouraged to participate. Events include athletics, football, basketball, and more.', '05 Jan 2025', 'info')">
+                        <div class="notice-date">
+                            <span class="day">05</span>
+                            <span class="month">Jan</span>
+                        </div>
+                        <div class="notice-content">
+                            <span class="notice-tag info">Event</span>
+                            <h4>Annual Sports Meet 2025</h4>
+                            <p>Mark your calendars! The annual sports meet will be held on 20th January 2025 at the main ground.</p>
+                        </div>
+                    </div>
+                    <div class="notice-item" onclick="openNotice('Parent-Teacher Meeting', 'PTM for all classes will be held on 18th January 2025 from 9:00 AM to 1:00 PM. Parents are requested to attend and discuss their child\'s progress with the teachers.', '10 Jan 2025', 'info')">
+                        <div class="notice-date">
+                            <span class="day">10</span>
+                            <span class="month">Jan</span>
+                        </div>
+                        <div class="notice-content">
+                            <span class="notice-tag info">Info</span>
+                            <h4>Parent-Teacher Meeting</h4>
+                            <p>PTM for all classes will be held on 18th January 2025 from 9:00 AM to 1:00 PM.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOTICE TICKER -->
+    <div class="notice-ticker">
+        <div class="container" style="display: flex; align-items: center; gap: 15px; width: 100%;">
+            <div class="label"><i class="fas fa-bullhorn"></i> LATEST</div>
+            <div class="ticker-content">
+                <div class="ticker-text">
+                    <span><i class="fas fa-star"></i> Admissions Open for 2025-26 – Apply before 31st January!</span>
+                    <span><i class="fas fa-star"></i> Annual Exam Schedule Released – Download now</span>
+                    <span><i class="fas fa-star"></i> Annual Sports Meet on 20th January 2025</span>
+                    <span><i class="fas fa-star"></i> Parent-Teacher Meeting on 18th January 2025</span>
+                    <span><i class="fas fa-star"></i> New Smart Classroom Initiative Launched</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WELCOME -->
+    <section class="welcome" id="welcome">
+        <div class="container">
+            <div class="welcome-grid">
+                <div class="welcome-image">
+                    <img src="https://images.pexels.com/photos/207691/pexels-photo-207691.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Students at Wisdom International School">
+                </div>
+                <div class="welcome-text">
+                    <span class="subtitle" style="color:var(--accent);font-weight:600;letter-spacing:2px;">WELCOME TO WISDOM</span>
+                    <h2>Invest in Your Student’s Future</h2>
+                    <p>Wisdom International School is a unique school that provides students with a quality education while also developing their emotional and intellectual skills. With its holistic approach to learning and dedicated faculty, we have gone above and beyond to ensure that each student receives the best possible education.</p>
+                    <div class="welcome-features">
+                        <div><i class="fas fa-check-circle"></i> Experienced & Caring Faculty</div>
+                        <div><i class="fas fa-check-circle"></i> Modern Smart Classrooms</div>
+                        <div><i class="fas fa-check-circle"></i> Holistic Development Focus</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE -->
+    <section class="why-choose">
+        <div class="container">
+            <div class="section-title">
+                <span class="subtitle">Think Outside The Box</span>
+                <h2>Why Choose Wisdom International School</h2>
+                <div class="line"></div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <h3>Smart Classrooms</h3>
+                    <p>Digital smart classes with content aligned to the CBSE curriculum.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-laptop-code"></i></div>
+                    <h3>Computer Lab</h3>
+                    <p>Making students and teachers computer savvy for the modern world.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-futbol"></i></div>
+                    <h3>Sports</h3>
+                    <p>Strong emphasis on sports and physical development for all students.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-bus"></i></div>
+                    <h3>Transport</h3>
+                    <p>Safe and reliable transport with GPS, CCTV, and first-aid kits.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FACULTY -->
+    <section class="faculty" id="faculty">
+        <div class="container">
+            <div class="section-title">
+                <span class="subtitle">Meet Our Team</span>
+                <h2>Our Expert Faculty</h2>
+                <div class="line"></div>
+            </div>
+            <div class="faculty-grid">
+
+                <!-- Faculty 1 -->
+                <div class="faculty-card">
+                    <div class="faculty-img" style="background-image:url('https://randomuser.me/api/portraits/women/65.jpg');" onclick="openFaculty('Dr. Anjali Sharma', 'Principal', 'Ph.D. in Education', '22+ Years', 'English, Hindi, Sanskrit', 'https://randomuser.me/api/portraits/women/65.jpg', 'Dr. Anjali Sharma brings over two decades of experience in educational leadership. She has been instrumental in transforming Wisdom International School into one of the region\'s most respected institutions. Her vision focuses on holistic development, digital literacy, and value-based education.', 'Education is the most powerful weapon which you can use to change the world.')">
+                        <div class="faculty-social">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="faculty-body">
+                        <h3>Dr. Anjali Sharma</h3>
+                        <span class="designation">Principal</span>
+                        <div class="faculty-details">
+                            <div><i class="fas fa-graduation-cap"></i> Ph.D. in Education</div>
+                            <div><i class="fas fa-briefcase"></i> 22+ Years Experience</div>
+                        </div>
+                        <p class="faculty-bio">"Education is the most powerful weapon which you can use to change the world."</p>
+                        <button class="faculty-view-btn" onclick="openFaculty('Dr. Anjali Sharma', 'Principal', 'Ph.D. in Education', '22+ Years', 'English, Hindi, Sanskrit', 'https://randomuser.me/api/portraits/women/65.jpg', 'Dr. Anjali Sharma brings over two decades of experience in educational leadership. She has been instrumental in transforming Wisdom International School into one of the region\'s most respected institutions. Her vision focuses on holistic development, digital literacy, and value-based education.', 'Education is the most powerful weapon which you can use to change the world.')">View Profile</button>
+                    </div>
+                </div>
+
+                <!-- Faculty 2 -->
+                <div class="faculty-card">
+                    <div class="faculty-img" style="background-image:url('https://randomuser.me/api/portraits/men/45.jpg');" onclick="openFaculty('Mr. Rajesh Verma', 'Vice Principal', 'M.Sc., B.Ed.', '18+ Years', 'Mathematics, Physics', 'https://randomuser.me/api/portraits/men/45.jpg', 'Mr. Rajesh Verma is a dedicated educator with a passion for mathematics and science. He oversees academic operations and teacher development programs. His innovative teaching methods have helped countless students overcome their fear of mathematics.', 'A teacher ignites the spark of curiosity that lasts a lifetime.')">
+                        <div class="faculty-social">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="faculty-body">
+                        <h3>Mr. Rajesh Verma</h3>
+                        <span class="designation">Vice Principal</span>
+                        <div class="faculty-details">
+                            <div><i class="fas fa-graduation-cap"></i> M.Sc., B.Ed.</div>
+                            <div><i class="fas fa-briefcase"></i> 18+ Years Experience</div>
+                        </div>
+                        <p class="faculty-bio">"A teacher ignites the spark of curiosity that lasts a lifetime."</p>
+                        <button class="faculty-view-btn" onclick="openFaculty('Mr. Rajesh Verma', 'Vice Principal', 'M.Sc., B.Ed.', '18+ Years', 'Mathematics, Physics', 'https://randomuser.me/api/portraits/men/45.jpg', 'Mr. Rajesh Verma is a dedicated educator with a passion for mathematics and science. He oversees academic operations and teacher development programs. His innovative teaching methods have helped countless students overcome their fear of mathematics.', 'A teacher ignites the spark of curiosity that lasts a lifetime.')">View Profile</button>
+                    </div>
+                </div>
+
+                <!-- Faculty 3 -->
+                <div class="faculty-card">
+                    <div class="faculty-img" style="background-image:url('https://randomuser.me/api/portraits/women/68.jpg');" onclick="openFaculty('Mrs. Priya Nair', 'Head of Science', 'M.Sc. in Chemistry', '15+ Years', 'Chemistry, Biology', 'https://randomuser.me/api/portraits/women/68.jpg', 'Mrs. Priya Nair leads the science department with a focus on practical learning and laboratory experimentation. Under her guidance, students have won several state-level science olympiads and exhibitions. She believes in making science accessible and exciting for every student.', 'Science is not just a subject; it\'s a way of thinking.')">
+                        <div class="faculty-social">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="faculty-body">
+                        <h3>Mrs. Priya Nair</h3>
+                        <span class="designation">Head of Science</span>
+                        <div class="faculty-details">
+                            <div><i class="fas fa-graduation-cap"></i> M.Sc. in Chemistry</div>
+                            <div><i class="fas fa-briefcase"></i> 15+ Years Experience</div>
+                        </div>
+                        <p class="faculty-bio">"Science is not just a subject; it's a way of thinking."</p>
+                        <button class="faculty-view-btn" onclick="openFaculty('Mrs. Priya Nair', 'Head of Science', 'M.Sc. in Chemistry', '15+ Years', 'Chemistry, Biology', 'https://randomuser.me/api/portraits/women/68.jpg', 'Mrs. Priya Nair leads the science department with a focus on practical learning and laboratory experimentation. Under her guidance, students have won several state-level science olympiads and exhibitions. She believes in making science accessible and exciting for every student.', 'Science is not just a subject; it\'s a way of thinking.')">View Profile</button>
+                    </div>
+                </div>
+
+                <!-- Faculty 4 -->
+                <div class="faculty-card">
+                    <div class="faculty-img" style="background-image:url('https://randomuser.me/api/portraits/men/52.jpg');" onclick="openFaculty('Mr. Suresh Patel', 'Computer Science Teacher', 'M.Tech in CSE', '12+ Years', 'Python, Java, Web Development', 'https://randomuser.me/api/portraits/men/52.jpg', 'Mr. Suresh Patel manages the computer lab and teaches programming to students from Class 6 onwards. He has developed a unique project-based curriculum that makes coding fun and practical. His students have built several impressive apps and websites.', 'Coding is the language of the future — let\'s teach our children to speak it.')">
+                        <div class="faculty-social">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="faculty-body">
+                        <h3>Mr. Suresh Patel</h3>
+                        <span class="designation">Computer Science Teacher</span>
+                        <div class="faculty-details">
+                            <div><i class="fas fa-graduation-cap"></i> M.Tech in CSE</div>
+                            <div><i class="fas fa-briefcase"></i> 12+ Years Experience</div>
+                        </div>
+                        <p class="faculty-bio">"Coding is the language of the future — let's teach our children to speak it."</p>
+                        <button class="faculty-view-btn" onclick="openFaculty('Mr. Suresh Patel', 'Computer Science Teacher', 'M.Tech in CSE', '12+ Years', 'Python, Java, Web Development', 'https://randomuser.me/api/portraits/men/52.jpg', 'Mr. Suresh Patel manages the computer lab and teaches programming to students from Class 6 onwards. He has developed a unique project-based curriculum that makes coding fun and practical. His students have built several impressive apps and websites.', 'Coding is the language of the future — let\'s teach our children to speak it.')">View Profile</button>
+                    </div>
+                </div>
+
+                <!-- Faculty 5 -->
+                <div class="faculty-card">
+                    <div class="faculty-img" style="background-image:url('https://randomuser.me/api/portraits/women/72.jpg');" onclick="openFaculty('Ms. Kavita Deshmukh', 'English Literature', 'M.A. in English', '10+ Years', 'English, Literature, Creative Writing', 'https://randomuser.me/api/portraits/women/72.jpg', 'Ms. Kavita Deshmukh brings literature to life in her classroom. She encourages students to express themselves through creative writing, poetry, and drama. Her students consistently excel in debates and elocution competitions at the inter-school level.', 'Books are a uniquely portable magic — and every child deserves to discover it.')">
+                        <div class="faculty-social">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="faculty-body">
+                        <h3>Ms. Kavita Deshmukh</h3>
+                        <span class="designation">English Literature</span>
+                        <div class="faculty-details">
+                            <div><i class="fas fa-graduation-cap"></i> M.A. in English</div>
+                            <div><i class="fas fa-briefcase"></i> 10+ Years Experience</div>
+                        </div>
+                        <p class="faculty-bio">"Books are a uniquely portable magic — and every child deserves to discover it."</p>
+                        <button class="faculty-view-btn" onclick="openFaculty('Ms. Kavita Deshmukh', 'English Literature', 'M.A. in English', '10+ Years', 'English, Literature, Creative Writing', 'https://randomuser.me/api/portraits/women/72.jpg', 'Ms. Kavita Deshmukh brings literature to life in her classroom. She encourages students to express themselves through creative writing, poetry, and drama. Her students consistently excel in debates and elocution competitions at the inter-school level.', 'Books are a uniquely portable magic — and every child deserves to discover it.')">View Profile</button>
+                    </div>
+                </div>
+
+                <!-- Faculty 6 -->
+                <div class="faculty-card">
+                    <div class="faculty-img" style="background-image:url('https://randomuser.me/api/portraits/men/60.jpg');" onclick="openFaculty('Mr. Vikram Singh', 'Physical Education', 'B.P.Ed., M.P.Ed.', '14+ Years', 'Football, Cricket, Athletics', 'https://randomuser.me/api/portraits/men/60.jpg', 'Mr. Vikram Singh is a former state-level football player who now channels his passion into coaching young athletes. He has led school teams to victory in multiple inter-school championships. His training sessions focus on fitness, discipline, and sportsmanship.', 'Sports teach lessons that classrooms cannot — teamwork, resilience, and grit.')">
+                        <div class="faculty-social">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="faculty-body">
+                        <h3>Mr. Vikram Singh</h3>
+                        <span class="designation">Physical Education</span>
+                        <div class="faculty-details">
+                            <div><i class="fas fa-graduation-cap"></i> B.P.Ed., M.P.Ed.</div>
+                            <div><i class="fas fa-briefcase"></i> 14+ Years Experience</div>
+                        </div>
+                        <p class="faculty-bio">"Sports teach lessons that classrooms cannot — teamwork, resilience, and grit."</p>
+                        <button class="faculty-view-btn" onclick="openFaculty('Mr. Vikram Singh', 'Physical Education', 'B.P.Ed., M.P.Ed.', '14+ Years', 'Football, Cricket, Athletics', 'https://randomuser.me/api/portraits/men/60.jpg', 'Mr. Vikram Singh is a former state-level football player who now channels his passion into coaching young athletes. He has led school teams to victory in multiple inter-school championships. His training sessions focus on fitness, discipline, and sportsmanship.', 'Sports teach lessons that classrooms cannot — teamwork, resilience, and grit.')">View Profile</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FACULTY MODAL -->
+    <div class="modal faculty-modal" id="facultyModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeFaculty()">&times;</button>
+            <div class="faculty-modal-header">
+                <div class="faculty-modal-img" id="facultyModalImg"></div>
+                <div>
+                    <h3 id="facultyModalName">Name</h3>
+                    <span class="designation" id="facultyModalDesignation">Designation</span>
+                </div>
+            </div>
+            <div class="faculty-modal-info">
+                <div><i class="fas fa-graduation-cap"></i> <strong>Qualification:</strong> <span id="facultyModalQualification"></span></div>
+                <div><i class="fas fa-briefcase"></i> <strong>Experience:</strong> <span id="facultyModalExperience"></span></div>
+                <div><i class="fas fa-book"></i> <strong>Subjects:</strong> <span id="facultyModalSubjects"></span></div>
+                <div><i class="fas fa-id-badge"></i> <strong>Employee ID:</strong> WIS-<span id="facultyModalEmpId"></span></div>
+            </div>
+            <p class="faculty-modal-bio" id="facultyModalBio"></p>
+            <div class="faculty-modal-quote" id="facultyModalQuote"></div>
+        </div>
+    </div>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <span class="subtitle">What We Do</span>
+                <h2>Services We Provide</h2>
+                <div class="line"></div>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-img" style="background-image:url('https://images.pexels.com/photos/256490/pexels-photo-256490.jpeg?auto=compress&cs=tinysrgb&w=600');">
+                        <div class="service-icon-badge"><i class="fas fa-chalkboard-teacher"></i></div>
+                    </div>
+                    <div class="service-body">
+                        <h3>Smart Classroom</h3>
+                        <p>Digital content aligned with the CBSE curriculum, facilitated by top industry experts.</p>
+                        <button class="read-more" onclick="openService('Smart Classroom', 'Our smart classrooms are equipped with interactive digital boards, projectors, and audio-visual systems. The curriculum is aligned with CBSE guidelines and enhanced with 3D animations, virtual labs, and real-time assessments to make learning engaging and effective.', 'fas fa-chalkboard-teacher', 'https://images.pexels.com/photos/256490/pexels-photo-256490.jpeg?auto=compress&cs=tinysrgb&w=600', ['Interactive Digital Boards', '3D Animated Lessons', 'Virtual Science Labs', 'Real-time Student Assessment', 'Audio-Visual Learning Modules'])">Read More <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img" style="background-image:url('https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=600');">
+                        <div class="service-icon-badge"><i class="fas fa-laptop-code"></i></div>
+                    </div>
+                    <div class="service-body">
+                        <h3>Computer Lab</h3>
+                        <p>Computer education is essential today — we make students and teachers computer savvy.</p>
+                        <button class="read-more" onclick="openService('Computer Lab', 'Our state-of-the-art computer lab features 60+ high-speed workstations with the latest software. Students learn programming, graphic design, web development, and essential digital literacy skills under expert guidance.', 'fas fa-laptop-code', 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=600', ['60+ High-Speed Computers', 'Programming (Python, Java, Scratch)', 'Graphic Design & Multimedia', 'Web Development Basics', 'Digital Literacy & Cyber Safety'])">Read More <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img" style="background-image:url('https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=600');">
+                        <div class="service-icon-badge"><i class="fas fa-futbol"></i></div>
+                    </div>
+                    <div class="service-body">
+                        <h3>Sports</h3>
+                        <p>We emphasize strength, speed, endurance, flexibility, and balance through mass participation.</p>
+                        <button class="read-more" onclick="openService('Sports & Physical Education', 'We believe in holistic development through sports. Our facilities include a football ground, basketball court, cricket nets, and indoor games. Students participate in inter-school, state, and national level competitions.', 'fas fa-futbol', 'https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=600', ['Football & Cricket Ground', 'Basketball & Volleyball Courts', 'Indoor Games (Chess, Carrom)', 'Professional Coaching Staff', 'Inter-school & State Competitions'])">Read More <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img" style="background-image:url('https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=600');">
+                        <div class="service-icon-badge"><i class="fas fa-bus"></i></div>
+                    </div>
+                    <div class="service-body">
+                        <h3>Transport</h3>
+                        <p>Over 35 vehicles equipped with GPS, CCTVs, and first-aid kits for safe student transport.</p>
+                        <button class="read-more" onclick="openService('School Transport', 'Our fleet of 35+ buses covers all major routes in the city. Each vehicle is equipped with GPS tracking, CCTV cameras, and first-aid kits. Trained conductors and drivers ensure the safety of every child.', 'fas fa-bus', 'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=600', ['35+ GPS-Enabled Buses', 'Live Tracking for Parents', 'CCTV Surveillance', 'Trained Drivers & Conductors', 'First-Aid Kits on Every Bus'])">Read More <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <i class="fas fa-user-graduate"></i>
+                    <span class="number" data-target="1200">0</span>
+                    <span class="label">Happy Students</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span class="number" data-target="85">0</span>
+                    <span class="label">Expert Teachers</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-trophy"></i>
+                    <span class="number" data-target="150">0</span>
+                    <span class="label">Awards Won</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span class="number" data-target="20">0</span>
+                    <span class="label">Years of Excellence</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <span class="subtitle">Our Happy Parents</span>
+                <h2>What Parents Say</h2>
+                <div class="line"></div>
+            </div>
+            <div class="testimonial-wrapper">
+                <div class="testimonial-slide active">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="quote">From the moment we enrolled, it was evident that this institution values not only academic excellence but also the holistic development of each student. The teachers genuinely care about every child's growth.</p>
+                    <div class="author">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Meena Singh">
+                        <div>
+                            <div class="name">Meena Singh</div>
+                            <div class="role">Parent of Class 5 Student</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-slide">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="quote">The dedicated faculty and staff create a nurturing environment where children are encouraged to explore their interests and grow. My son has become much more confident since joining this school.</p>
+                    <div class="author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dipak Kumar">
+                        <div>
+                            <div class="name">Dipak Kumar</div>
+                            <div class="role">Parent of Class 8 Student</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-slide">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="quote">As a parent, I couldn’t be more grateful for the exceptional education and support my child has received at Wisdom International School. The smart classrooms and computer lab are truly world-class.</p>
+                    <div class="author">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Ramesh Singh">
+                        <div>
+                            <div class="name">Ramesh Singh</div>
+                            <div class="role">Parent of Class 10 Student</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-nav" id="testimonialNav">
+                    <button class="active" data-t="0"></button>
+                    <button data-t="1"></button>
+                    <button data-t="2"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-title">
+                <span class="subtitle">Got Questions?</span>
+                <h2>Frequently Asked Questions</h2>
+                <div class="line"></div>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">What curriculum does the school follow? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>We follow the national curriculum framework prescribed by CBSE (Central Board of Secondary Education). Our teaching methodology blends traditional values with modern digital learning tools.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Do you provide transportation? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Yes, we provide safe and reliable transportation services covering various routes, with GPS and CCTV on all buses. Parents can track the bus in real-time through our mobile app.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How can I apply for admission? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>You can apply online through our website by clicking the "Apply Now" button or visit the school office. Admission for 2025-26 is now open. The process includes form submission, an interaction session, and document verification.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What extracurricular activities are offered? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>We offer a wide range of activities including sports (football, basketball, cricket), music, dance, art & craft, debate, robotics, and coding clubs. Students are encouraged to participate in at least one activity per term.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <div class="section-title">
+                <span class="subtitle">We Love Our Work</span>
+                <h2>Image Gallery</h2>
+                <div class="line"></div>
+            </div>
+            <div class="gallery-filter" id="galleryFilter">
+                <button class="active" data-filter="all">All</button>
+                <button data-filter="academics">Academics</button>
+                <button data-filter="sports">Sports</button>
+                <button data-filter="campus">Campus</button>
+            </div>
+            <div class="gallery-grid" id="galleryGrid">
+                <div class="gallery-item" data-category="academics" onclick="openLightbox(0)">
+                    <img src="https://images.pexels.com/photos/256490/pexels-photo-256490.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Classroom Learning">
+                    <div class="gallery-overlay"><span>Classroom Learning</span></div>
+                </div>
+                <div class="gallery-item" data-category="academics" onclick="openLightbox(1)">
+                    <img src="https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Science Lab">
+                    <div class="gallery-overlay"><span>Science Lab</span></div>
+                </div>
+                <div class="gallery-item" data-category="sports" onclick="openLightbox(2)">
+                    <img src="https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Sports Day">
+                    <div class="gallery-overlay"><span>Sports Day</span></div>
+                </div>
+                <div class="gallery-item" data-category="campus" onclick="openLightbox(3)">
+                    <img src="https://images.pexels.com/photos/1595391/pexels-photo-1595391.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Library">
+                    <div class="gallery-overlay"><span>Library</span></div>
+                </div>
+                <div class="gallery-item" data-category="campus" onclick="openLightbox(4)">
+                    <img src="https://images.pexels.com/photos/207691/pexels-photo-207691.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Annual Function">
+                    <div class="gallery-overlay"><span>Annual Function</span></div>
+                </div>
+                <div class="gallery-item" data-category="academics" onclick="openLightbox(5)">
+                    <img src="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Computer Lab">
+                    <div class="gallery-overlay"><span>Computer Lab</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOG -->
+    <section class="blog" id="blog">
+        <div class="container">
+            <div class="section-title">
+                <span class="subtitle">Sometimes We Want To Share</span>
+                <h2>Latest Blog Posts</h2>
+                <div class="line"></div>
+            </div>
+            <div class="blog-grid">
+                <div class="blog-card" onclick="openBlog('Annual Sports Meet 2025 – A Grand Success', 'Our Annual Sports Meet 2025 was a spectacular event filled with energy, enthusiasm, and sportsmanship. Over 800 students participated across 25 different events including athletics, football, basketball, and relay races. The chief guest, a renowned national athlete, praised our students\' dedication and spirit. Congratulations to all participants and winners!', 'Events', '17 Feb 2025', 'https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=800')">
+                    <div class="blog-img" style="background-image:url('https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=600');">
+                        <div class="blog-date">Feb<br>17</div>
+                    </div>
+                    <div class="blog-body">
+                        <span class="category">Events</span>
+                        <h3>Annual Sports Meet 2025 – A Grand Success</h3>
+                        <p>Our students showcased incredible talent and sportsmanship at the annual sports meet.</p>
+                        <span class="read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+                <div class="blog-card" onclick="openBlog('New Smart Classroom Initiative Launched', 'We are proud to announce the launch of our new smart classroom initiative. All classrooms from Class 1 to Class 12 are now equipped with interactive digital boards, projectors, and audio-visual systems. This initiative aims to make learning more engaging and effective for our students, preparing them for the digital future.', 'Academics', '16 Feb 2025', 'https://images.pexels.com/photos/256490/pexels-photo-256490.jpeg?auto=compress&cs=tinysrgb&w=800')">
+                    <div class="blog-img" style="background-image:url('https://images.pexels.com/photos/256490/pexels-photo-256490.jpeg?auto=compress&cs=tinysrgb&w=600');">
+                        <div class="blog-date">Feb<br>16</div>
+                    </div>
+                    <div class="blog-body">
+                        <span class="category">Academics</span>
+                        <h3>New Smart Classroom Initiative Launched</h3>
+                        <p>We’ve upgraded our classrooms with the latest digital learning technology.</p>
+                        <span class="read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+                <div class="blog-card" onclick="openBlog('Parent-Teacher Meet: Strengthening Partnerships', 'The Parent-Teacher Meeting held on 30th March was a huge success. Over 90% of parents attended the session where teachers shared detailed progress reports, discussed individual student strengths, and outlined areas for improvement. The collaborative spirit between parents and teachers was truly inspiring.', 'Parents', '30 Mar 2025', 'https://images.pexels.com/photos/1595391/pexels-photo-1595391.jpeg?auto=compress&cs=tinysrgb&w=800')">
+                    <div class="blog-img" style="background-image:url('https://images.pexels.com/photos/1595391/pexels-photo-1595391.jpeg?auto=compress&cs=tinysrgb&w=600');">
+                        <div class="blog-date">Mar<br>30</div>
+                    </div>
+                    <div class="blog-body">
+                        <span class="category">Parents</span>
+                        <h3>Parent-Teacher Meet: Strengthening Partnerships</h3>
+                        <p>A productive session where parents and teachers discussed student progress.</p>
+                        <span class="read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <h2>Become A Part Of Our Family!</h2>
+            <p>Admissions for the academic year 2025-2026 are now open. Students can apply online and make payment securely.</p>
+            <a href="#" class="btn btn-primary" id="applyBtnCta">Apply Online</a>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <span class="subtitle">Get In Touch</span>
+                <h2>Contact Us</h2>
+                <div class="line"></div>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4>Address</h4>
+                            <p>123 Education Lane, Wisdom City, State 456789</p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+91-9876543210</p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>info@wisdominternational.edu</p>
+                        </div>
+                    </div>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019832958378!2d-122.41941548468136!3d37.77492927975995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c6c8f4459%3A0xb10ed6d9b5050fa5!2sTwitter%20HQ!5e0!3m2!1sen!2sus!4v1610000000000!5m2!1sen!2sus" width="100%" height="200" style="border:0;border-radius:14px;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Your Email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Subject">
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%;">Send Message</button>
+                        <div class="form-message" id="contactMsg"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Wisdom International School</h4>
+                    <p>Providing quality education and developing emotional and intellectual skills in a nurturing environment.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#notice">Notice</a></li>
+                        <li><a href="#welcome">About Us</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#faculty">Faculty</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="#services">Smart Classrooms</a></li>
+                        <li><a href="#services">Computer Lab</a></li>
+                        <li><a href="#services">Sports</a></li>
+                        <li><a href="#services">Transport</a></li>
+                        <li><a href="#services">Library</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <div class="footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>123 Education Lane, Wisdom City</span></div>
+                    <div class="footer-contact-item"><i class="fas fa-phone"></i><span>+91-9876543210</span></div>
+                    <div class="footer-contact-item"><i class="fas fa-envelope"></i><span>info@wisdominternational.edu</span></div>
+                    <div class="footer-contact-item"><i class="fas fa-clock"></i><span>Mon - Sat: 8:00 AM - 4:00 PM</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">© 2025 Wisdom International School. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <span class="lightbox-nav prev" onclick="prevLightbox()"><i class="fas fa-chevron-left"></i></span>
+        <img src="" alt="Gallery Image" id="lightboxImg">
+        <span class="lightbox-nav next" onclick="nextLightbox()"><i class="fas fa-chevron-right"></i></span>
+    </div>
+
+    <!-- SERVICE DETAIL MODAL -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeService()">&times;</button>
+            <div class="modal-icon" id="serviceIcon"><i class="fas fa-info-circle"></i></div>
+            <h3 id="serviceTitle">Service Title</h3>
+            <div class="modal-img" id="serviceImg"></div>
+            <p id="serviceDesc"></p>
+            <ul class="detail-list" id="serviceList"></ul>
+        </div>
+    </div>
+
+    <!-- NOTICE DETAIL MODAL -->
+    <div class="modal" id="noticeModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeNotice()">&times;</button>
+            <div class="modal-icon"><i class="fas fa-bullhorn"></i></div>
+            <h3 id="noticeTitle">Notice Title</h3>
+            <p style="color: var(--accent); font-weight: 600; margin-bottom: 12px;" id="noticeDate"></p>
+            <p id="noticeDesc"></p>
+        </div>
+    </div>
+
+    <!-- BLOG DETAIL MODAL -->
+    <div class="modal" id="blogModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeBlog()">&times;</button>
+            <div class="modal-img" id="blogImg"></div>
+            <span style="color: var(--accent); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;" id="blogCategory"></span>
+            <h3 id="blogTitle" style="margin-top: 8px;">Blog Title</h3>
+            <p style="color: var(--gray); font-size: 13px; margin-bottom: 15px;" id="blogDate"></p>
+            <p id="blogDesc"></p>
+        </div>
+    </div>
+
+    <!-- APPLY MODAL (Admission Form) -->
+    <div class="modal" id="applyModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeApplyModal()">&times;</button>
+            <div class="modal-icon"><i class="fas fa-user-plus"></i></div>
+            <h3>Admission Application Form</h3>
+            <p>Fill in your details and we’ll get back to you soon. Fields marked with * are required.</p>
+            <form id="applyForm">
+                <div class="form-group">
+                    <input type="text" placeholder="Student’s Full Name *" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Parent’s / Guardian’s Name *" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email Address *" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" placeholder="Phone Number *" required>
+                </div>
+                <div class="form-group">
+                    <input type="date" placeholder="Date of Birth *" required>
+                </div>
+                <div class="form-group">
+                    <select required>
+                        <option value="">Select Grade *</option>
+                        <option>Nursery</option>
+                        <option>KG</option>
+                        <option>Class 1</option>
+                        <option>Class 2</option>
+                        <option>Class 3</option>
+                        <option>Class 4</option>
+                        <option>Class 5</option>
+                        <option>Class 6</option>
+                        <option>Class 7</option>
+                        <option>Class 8</option>
+                        <option>Class 9</option>
+                        <option>Class 10</option>
+                        <option>Class 11</option>
+                        <option>Class 12</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select required>
+                        <option value="">Select Gender *</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Previous School (if any)">
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Address *" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Submit Application</button>
+                <div class="form-message" id="applyMsg"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ===== SCROLL PROGRESS =====
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('scrollProgress').style.width = progress + '%';
+        });
+
+        // ===== MOBILE MENU =====
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+        menuToggle.addEventListener('click', () => mainNav.classList.toggle('open'));
+
+        // ===== HEADER SCROLL =====
+        window.addEventListener('scroll', () => {
+            document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ===== HERO SLIDER =====
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slider-dots .dot');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function goToSlide(n) {
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() { goToSlide(currentSlide + 1); }
+        function prevSlide() { goToSlide(currentSlide - 1); }
+
+        function startAutoSlide() { slideInterval = setInterval(nextSlide, 5000); }
+        function resetAutoSlide() { clearInterval(slideInterval); startAutoSlide(); }
+
+        document.getElementById('nextSlide').addEventListener('click', () => { nextSlide(); resetAutoSlide(); });
+        document.getElementById('prevSlide').addEventListener('click', () => { prevSlide(); resetAutoSlide(); });
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                goToSlide(parseInt(dot.dataset.slide));
+                resetAutoSlide();
+            });
+        });
+        startAutoSlide();
+
+        // ===== TESTIMONIAL SLIDER =====
+        const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+        const testimonialBtns = document.querySelectorAll('#testimonialNav button');
+        let currentTestimonial = 0;
+
+        function showTestimonial(n) {
+            testimonialSlides.forEach(s => s.classList.remove('active'));
+            testimonialBtns.forEach(b => b.classList.remove('active'));
+            currentTestimonial = n;
+            testimonialSlides[n].classList.add('active');
+            testimonialBtns[n].classList.add('active');
+        }
+
+        testimonialBtns.forEach(btn => {
+            btn.addEventListener('click', () => showTestimonial(parseInt(btn.dataset.t)));
+        });
+
+        setInterval(() => {
+            showTestimonial((currentTestimonial + 1) % testimonialSlides.length);
+        }, 6000);
+
+        // ===== STATS COUNTER =====
+        let statsDone = false;
+        const statsSection = document.querySelector('.stats');
+
+        function animateCounter(el) {
+            const target = parseInt(el.dataset.target);
+            const duration = 2000;
+            const start = performance.now();
+
+            function update(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(eased * target);
+                el.textContent = current.toLocaleString() + (target >= 100 ? '+' : '');
+                if (progress < 1) requestAnimationFrame(update);
+                else el.textContent = target.toLocaleString() + '+';
+            }
+            requestAnimationFrame(update);
+        }
+
+        const statsObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !statsDone) {
+                    statsDone = true;
+                    document.querySelectorAll('.stat-item .number').forEach(animateCounter);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (statsSection) statsObserver.observe(statsSection);
+
+        // ===== FAQ ACCORDION =====
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const answer = item.querySelector('.faq-answer');
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => {
+                    i.classList.remove('active');
+                    i.querySelector('.faq-answer').style.maxHeight = null;
+                });
+                if (!isActive) {
+                    item.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+
+        // ===== GALLERY FILTER =====
+        const filterBtns = document.querySelectorAll('#galleryFilter button');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.classList.remove('hide');
+                    } else {
+                        item.classList.add('hide');
+                    }
+                });
+            });
+        });
+
+        // ===== LIGHTBOX =====
+        const galleryImages = Array.from(document.querySelectorAll('.gallery-item img')).map(img => img.src.replace('w=800', 'w=1200'));
+        let currentLightboxIndex = 0;
+
+        function openLightbox(index) {
+            currentLightboxIndex = index;
+            document.getElementById('lightboxImg').src = galleryImages[index];
+            document.getElementById('lightbox').classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+        function nextLightbox() {
+            currentLightboxIndex = (currentLightboxIndex + 1) % galleryImages.length;
+            document.getElementById('lightboxImg').src = galleryImages[currentLightboxIndex];
+        }
+        function prevLightbox() {
+            currentLightboxIndex = (currentLightboxIndex - 1 + galleryImages.length) % galleryImages.length;
+            document.getElementById('lightboxImg').src = galleryImages[currentLightboxIndex];
+        }
+        document.getElementById('lightbox').addEventListener('click', e => {
+            if (e.target.id === 'lightbox') closeLightbox();
+        });
+        document.addEventListener('keydown', e => {
+            if (document.getElementById('lightbox').classList.contains('active')) {
+                if (e.key === 'ArrowRight') nextLightbox();
+                if (e.key === 'ArrowLeft') prevLightbox();
+                if (e.key === 'Escape') closeLightbox();
+            }
+        });
+
+        // ===== FACULTY MODAL =====
+        function openFaculty(name, designation, qualification, experience, subjects, img, bio, quote) {
+            document.getElementById('facultyModalName').textContent = name;
+            document.getElementById('facultyModalDesignation').textContent = designation;
+            document.getElementById('facultyModalQualification').textContent = qualification;
+            document.getElementById('facultyModalExperience').textContent = experience;
+            document.getElementById('facultyModalSubjects').textContent = subjects;
+            document.getElementById('facultyModalBio').textContent = bio;
+            document.getElementById('facultyModalQuote').textContent = '"' + quote + '"';
+            document.getElementById('facultyModalImg').style.backgroundImage = 'url(' + img + ')';
+            document.getElementById('facultyModalEmpId').textContent = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('facultyModal').classList.add('active');
+        }
+        function closeFaculty() {
+            document.getElementById('facultyModal').classList.remove('active');
+        }
+        document.getElementById('facultyModal').addEventListener('click', e => {
+            if (e.target.id === 'facultyModal') closeFaculty();
+        });
+
+        // ===== SERVICE MODAL =====
+        function openService(title, desc, icon, img, features) {
+            document.getElementById('serviceTitle').textContent = title;
+            document.getElementById('serviceDesc').textContent = desc;
+            document.getElementById('serviceIcon').innerHTML = '<i class="' + icon + '"></i>';
+            document.getElementById('serviceImg').style.backgroundImage = 'url(' + img + ')';
+            const list = document.getElementById('serviceList');
+            list.innerHTML = '';
+            features.forEach(f => {
+                list.innerHTML += '<li><i class="fas fa-check-circle"></i> ' + f + '</li>';
+            });
+            document.getElementById('serviceModal').classList.add('active');
+        }
+        function closeService() {
+            document.getElementById('serviceModal').classList.remove('active');
+        }
+        document.getElementById('serviceModal').addEventListener('click', e => {
+            if (e.target.id === 'serviceModal') closeService();
+        });
+
+        // ===== NOTICE MODAL =====
+        function openNotice(title, desc, date, tag) {
+            document.getElementById('noticeTitle').textContent = title;
+            document.getElementById('noticeDesc').textContent = desc;
+            document.getElementById('noticeDate').textContent = '📅 ' + date;
+            document.getElementById('noticeModal').classList.add('active');
+        }
+        function closeNotice() {
+            document.getElementById('noticeModal').classList.remove('active');
+        }
+        document.getElementById('noticeModal').addEventListener('click', e => {
+            if (e.target.id === 'noticeModal') closeNotice();
+        });
+
+        // ===== BLOG MODAL =====
+        function openBlog(title, desc, category, date, img) {
+            document.getElementById('blogTitle').textContent = title;
+            document.getElementById('blogDesc').textContent = desc;
+            document.getElementById('blogCategory').textContent = category;
+            document.getElementById('blogDate').textContent = '📅 ' + date;
+            document.getElementById('blogImg').style.backgroundImage = 'url(' + img + ')';
+            document.getElementById('blogModal').classList.add('active');
+        }
+        function closeBlog() {
+            document.getElementById('blogModal').classList.remove('active');
+        }
+        document.getElementById('blogModal').addEventListener('click', e => {
+            if (e.target.id === 'blogModal') closeBlog();
+        });
+
+        // ===== APPLY MODAL (Admission Form) =====
+        const applyModal = document.getElementById('applyModal');
+
+        function openApplyModal() {
+            applyModal.classList.add('active');
+        }
+
+        document.getElementById('applyBtnNav').addEventListener('click', e => {
+            e.preventDefault();
+            openApplyModal();
+        });
+        document.getElementById('applyBtnCta').addEventListener('click', e => {
+            e.preventDefault();
+            openApplyModal();
+        });
+        function closeApplyModal() { applyModal.classList.remove('active'); }
+        applyModal.addEventListener('click', e => {
+            if (e.target === applyModal) closeApplyModal();
+        });
+
+        // Apply Form
+        document.getElementById('applyForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const msg = document.getElementById('applyMsg');
+            msg.className = 'form-message success';
+            msg.textContent = '✅ Application submitted successfully! We will contact you soon.';
+            e.target.reset();
+            setTimeout(() => {
+                msg.className = 'form-message';
+                msg.textContent = '';
+                closeApplyModal();
+            }, 3000);
+        });
+
+        // Contact Form
+        document.getElementById('contactForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const msg = document.getElementById('contactMsg');
+            msg.className = 'form-message success';
+            msg.textContent = '✅ Message sent successfully! We will get back to you soon.';
+            e.target.reset();
+            setTimeout(() => {
+                msg.className = 'form-message';
+                msg.textContent = '';
+            }, 4000);
+        });
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const headerOffset = 80;
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                    }
+                    mainNav.classList.remove('open');
+                }
+            });
+        });
+
+        // ===== BACK TO TOP =====
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => backToTop.classList.toggle('show', window.scrollY > 400));
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // ===== ACTIVE NAV ON SCROLL =====
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav ul li a[href^="#"]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) current = section.getAttribute('id');
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
